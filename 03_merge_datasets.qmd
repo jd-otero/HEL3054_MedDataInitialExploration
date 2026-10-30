@@ -32,7 +32,7 @@ library(here)
 
 Do the datasets contain duplicated `person_id`?
 
-```{r merge}
+```{r duplicates}
 
 ```
 
@@ -40,7 +40,7 @@ Do the datasets contain duplicated `person_id`?
 
 We will use only the first diagnosis reported in the table. Therefore, remove duplicated rows from the dataset.
 
-```{r}
+```{r rem-duplicates}
 
 ```
 
