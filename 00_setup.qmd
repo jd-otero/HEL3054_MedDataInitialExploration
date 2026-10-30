@@ -41,7 +41,7 @@ The three datasets are in the following GitHub repository: github.com/jd-otero/H
 We will read them straight from GitHub using the following code:
 
 ```{r download data}
-repo <- "https://raw.githubusercontent.com/jd-otero/HEL3054_MedDataInitialExploration/main/data_exploration/data"
+repo <- "https://raw.githubusercontent.com/jd-otero/HEL3054_MedDataInitialExploration/main/data/raw"
 
 raw_url_cohort <- paste(repo,"cohort_baseline.csv", sep = "/")
 raw_url_diagnosis <- paste(repo, "registry_diagnoses.csv", sep = "/")
