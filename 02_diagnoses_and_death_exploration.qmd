@@ -86,6 +86,8 @@ Which is the most common primary diagnoses?
 
 Create a factor variable `died` that is "Yes" or "No".
 
+*Hint: `if_else()`*
+
 ```{r died}
 
 ```
@@ -100,7 +102,7 @@ How many participants have died?
 
 ### 6. Save
 
-Save your current datasets, diagnoses primary, and death.
+Save your current datasets.
 
 ```{r save-datasets}
 
