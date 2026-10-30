@@ -1,0 +1,97 @@
+---
+title: "Exploratory data analysis: Merge datasets"
+subtitle: "HEL 3054"
+date: "2026-11-02"
+output: html
+---
+
+## Objectives
+
+In this class we explore and describe three datasets. For this session We will:
+
+- Compare datasets
+- Merge different datasets
+
+We start by importing the data from the previous sessions.
+
+```{r initial settings}
+# Import libraries
+library(tidyverse)
+library(tableone)
+library(here)
+
+# Import data
+
+```
+
+## 6. Merging the datasets
+
+### 6.1 Preparing datasets
+
+Do the datasets contain duplicated `person_id`?
+
+```{r merge}
+
+```
+
+### 6.2 Remove duplicates
+
+We will use only the first diagnosis reported in the table. Therefore, remove duplicated rows from the dataset.
+
+```{r}
+
+```
+
+### 6.3 Merge
+
+Make one dataset that keeps:
+
+- all columns from the cohort dataset
+- `diagnosis_code` from `diagnoses` dataset
+- `died` from the `death` dataset
+
+How many rows do you expect? How many do you get? *Hint: start from the cohort and use `left_join()`.*
+
+```{r merge}
+
+```
+
+### 6.4 Missing diagnosis codes
+
+How many `NA`s are there in `diagnosis_code` now? What does `NA` mean in this dataset?
+
+```{r merged-na}
+
+```
+
+### 6.5 Prevalent IHD among those who died
+
+Did the people who died report prior (prevalent) IHD at baseline?
+
+```{r ihd-death}
+
+```
+
+### 6.6 Most common diagnosis by education
+
+Among participants with secondary education, what was the most common diagnosis?
+
+```{r secondary-education}
+
+```
+
+## 6.6 Age and Diagnosis
+
+What is the average age at which each IHD occurred among the individuals in the cohort? Build a `scatterplot` with the mean age for each diagnosis.
+
+```{r}
+
+```
+
+## 7. Save merged dataset
+
+Save your merged dataset in your local folder
+
+```{r save dataset}
+
+```

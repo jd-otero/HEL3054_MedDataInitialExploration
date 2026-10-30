@@ -1,0 +1,107 @@
+---
+title: "Exploratory data analysis: Diagnoses and death"
+subtitle: "HEL 3054"
+date: "2026-11-02"
+output: html
+---
+
+## Objectives
+
+During this session we will:
+
+- Explore the diagnosis and death datasets
+- Practice descriptive data analysis
+- Practice data manipulation and visualization
+
+We start by importing the data from the previous sessions.
+
+```{r initial settings}
+# Import libraries
+library(tidyverse)
+library(tableone)
+library(here)
+
+# Import data
+death <- read_csv(here("data", "raw","death_followup.csv"))
+diagnoses <- read_csv(here("data", "raw", "registry_diagnoses.csv"))
+```
+
+## 4. Diagnoses
+
+### 4.1 Coding systems
+
+Are all diagnoses in the same coding system?
+
+*Hint: `unique()`*
+
+```{r coding-systems}
+
+```
+
+### 4.2 Filter by diagnoses system
+
+Which rows are not in ICD-10? Remove them.
+
+```{r filter-icd10}
+
+```
+
+### 4.3 diagnoses codes
+
+How many different diagnosis codes are there, and how often does each appear?
+
+```{r codes}
+
+```
+
+### 4.4 Diagnosis per person
+
+How many diagnoses does each person have? Show it in a bar plot.
+
+*Hint: `count(person_id)`.*
+
+```{r per-person}
+
+```
+
+### 4.5 Primary diagnoses
+
+Keep only the primary diagnoses. How many rows and people are left?
+
+```{r primary}
+
+```
+
+### 4.6 Most common diagnoses
+
+Which is the most common primary diagnoses?
+
+```{r most-common}
+
+```
+
+## 5. Deaths
+
+### 5.1 Who died?
+
+Create a factor variable `died` that is "Yes" or "No".
+
+```{r died}
+
+```
+
+### 5.2 How many died?
+
+How many participants have died?
+
+```{r n-died}
+
+```
+
+### 6. Save
+
+Save your current datasets, diagnoses primary, and death.
+
+```{r save-datasets}
+
+```

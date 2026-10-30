@@ -1,0 +1,159 @@
+---
+title: "Exploratory data analysis: Cohort description"
+subtitle: "HEL 3054"
+date: "2026-11-02"
+output: html
+---
+
+## Objectives
+
+During this session we will:
+
+- Explore the cohort dataset
+- Practice descriptive data analysis
+- Practice data manipulation and visualization
+
+We start by importing the data from the previous session.
+
+```{r initial settings}
+# Import libraries
+library(tidyverse)
+library(tableone)
+library(here)
+
+cohort <- read_csv(here("data", "raw", "cohort_baseline.csv"))
+```
+
+## 3. The cohort
+
+### 3.1 Men and women
+
+How many men and women are there? Show it in a plot.
+
+*Hint: `table()`.* *Hint 2: barplot*
+
+```{r sex}
+
+```
+
+### 3.2 Education
+
+How many people are there at each level of educational attainment?
+
+```{r education}
+
+```
+
+### 3.3 Diabetes
+
+How many have diabetes at baseline? Report the proportions.
+
+*Hint: `prop.table()`*
+
+```{r diabetes}
+
+```
+
+### 3.4 Age
+
+Create an age variable using the birth year.
+
+*Hint: `mutate()`*
+
+```{r age}
+
+```
+
+Plot the age distribution using `ggplot2`. What can you say about it?
+
+*Hint: `geom_density()`*
+
+```{r age-distribution}
+
+```
+
+### 3.5 Age by sex
+
+Add a colour to the previous plot based on sex. Are there differences between men and women?
+
+```{r scatter-colour}
+
+```
+
+### 3.6 Diabetes and IHD
+
+Make a 2×2 table of diabetes and self-reported prior IHD. Did the people that have diabetes reported prior IHD?
+
+```{r diabetes-ihd}
+
+```
+
+### 3.7 BMI distribution
+
+Look at the BMI distribution with a boxplot. Are there any outliers?
+
+```{r bmi-boxplot}
+
+```
+
+### 3.8 BMI by sex
+
+Show the BMI distribution separately for men and women. Is there any difference?
+
+*Hint: `facet_wrap()`*
+
+```{r bmi-sex}
+
+```
+
+### 3.9 BMI categories
+
+Create a categorical BMI variable using the WHO cut-offs:underweight below 18.5, normal weight 18.5 to 24.9, overweight 25 to 29.9 and obese 30 or above. How many people are obese?
+
+```{r bmi-categories}
+
+```
+
+### 3.10 Means by education
+
+Build a summary that includes the number of people and the mean BMI, systolic blood pressure and cholesterol at each level of education.
+
+*Hint: `group_by()` and `summarise()`*
+
+```{r means-education}
+
+```
+
+### 3.11 Table 1
+
+Make a "Table 1" describing the cohort splitted by sex. Describe the trends you observe.
+
+```{r table-one}
+
+```
+
+### 3.12 Cholesterol and blood pressure
+
+Make a scatterplot of total cholesterol and systolic blood pressure. Do you see any trend?
+
+```{r scatter}
+
+```
+
+### 3.13 Linear regression
+
+Fit a linear regression using cholesterol as the independent variable and systolic blood pressure as the dependent variable. In addition, add the regression line to the previous scatter plot. 
+
+*Hint: `geom_smooth()`*
+
+```{r regression}
+
+```
+
+### 3.14 Save
+
+Save your current dataset
+
+```{r save-dataset}
+
+```

@@ -1,0 +1,82 @@
+---
+title: "Exploratory data analysis: Set Up"
+subtitle: "HEL 3054"
+date: "2026-11-02"
+output: html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+During this class we explore and describe three related datasets. the data includes a cohort of individuals, Ischaemic Heart Disease (IHD) diagnoses and link to the death registry. The data is derived from (https://github.com/theresenoest/HEL3054-MedicalData). Our main aim for the day will be to practice exploratory data analysis
+
+## Objectives
+
+During this session we will:
+
+- Download the datasets
+- Explore each dataset and find out what it contains
+- Understand how the datasets relate to each other
+
+We start by importing relevant libraries
+
+```{r initial settings}
+# Import libraries
+library(tidyverse)
+library(tableone)
+library(here)
+```
+
+## 1. The datasets
+
+The three datasets are in the following GitHub repository: github.com/jd-otero/HEL3054_MedDataInitialExploration:
+
+- [cohort_baseline.csv](https://raw.githubusercontent.com/jd-otero/HEL3054_MedDataInitialExploration/main/data_exploration/data/cohort_baseline.csv)
+- [registry_diagnoses.csv](https://raw.githubusercontent.com/jd-otero/HEL3054_MedDataInitialExploration/main/data_exploration/data/registry_diagnoses.csv)
+- [death_followup.csv](https://raw.githubusercontent.com/jd-otero/HEL3054_MedDataInitialExploration/main/data_exploration/data/death_followup.csv)
+
+We will read them straight from GitHub using the following code:
+
+```{r download data}
+repo <- "https://raw.githubusercontent.com/jd-otero/HEL3054_MedDataInitialExploration/main/data_exploration/data"
+
+raw_url_cohort <- paste(repo,"cohort_baseline.csv", sep = "/")
+raw_url_diagnosis <- paste(repo, "registry_diagnoses.csv", sep = "/")
+raw_url_death <- paste(repo, "death_followup.csv", sep = "/")
+
+# Read directly from the URLs.
+cohort <- read.csv(raw_url_cohort)
+diagnosis <- read.csv(raw_url_diagnosis)
+death <- read.csv(raw_url_death)
+
+write_csv(cohort, here("data", "raw", "cohort_baseline.csv"))
+write_csv(diagnosis, here("data", "raw", "registry_diagnoses.csv"))
+write_csv(death, here("data", "raw", "death_followup.csv"))
+```
+
+### 1.1 A first look
+
+- What does each dataset seem to contain?
+- How many rows does each dataset have?
+- What does one row represent in each dataset? Does a row mean the same thing in all three?
+
+*Hint: `head()`, `nrow()` and `n_distinct()`.*
+
+```{r first-look}
+
+```
+
+## 2. Initial exploration
+
+### 2.1 Types, missing values and structure
+
+Identify the data types, the missing data and the structure of each dataset.
+
+*Hint: `str()` and `is.na()`.*
+
+```{r initial-exploration}
+
+```
