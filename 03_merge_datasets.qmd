@@ -14,12 +14,14 @@ In this class we explore and describe three datasets. For this session We will:
 
 We start by importing the data from the previous sessions.
 
-```{r initial settings}
+```{r initial settings, results='hide'}
 # Import libraries
 library(tidyverse)
 library(tableone)
 library(here)
+```
 
+```{r import data}
 # Import data
 
 ```

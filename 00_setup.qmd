@@ -21,9 +21,9 @@ During this session we will:
 - Explore each dataset and find out what it contains
 - Understand how the datasets relate to each other
 
-We start by importing relevant libraries
+We start by importing relevant libraries. Check that you have them installed before starting.
 
-```{r initial settings}
+```{r initial settings, results = 'hide'}
 # Import libraries
 library(tidyverse)
 library(tableone)

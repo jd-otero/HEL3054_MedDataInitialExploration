@@ -15,12 +15,14 @@ During this session we will:
 
 We start by importing the data from the previous session.
 
-```{r initial settings}
+```{r initial settings, results='hide'}
 # Import libraries
 library(tidyverse)
 library(tableone)
 library(here)
+```
 
+```{r import data}
 cohort <- read_csv(here("data", "raw", "cohort_baseline.csv"))
 ```
 
