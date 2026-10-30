@@ -34,9 +34,9 @@ library(here)
 
 The three datasets are in the following GitHub repository: github.com/jd-otero/HEL3054_MedDataInitialExploration:
 
-- [cohort_baseline.csv](https://raw.githubusercontent.com/jd-otero/HEL3054_MedDataInitialExploration/main/data_exploration/data/cohort_baseline.csv)
-- [registry_diagnoses.csv](https://raw.githubusercontent.com/jd-otero/HEL3054_MedDataInitialExploration/main/data_exploration/data/registry_diagnoses.csv)
-- [death_followup.csv](https://raw.githubusercontent.com/jd-otero/HEL3054_MedDataInitialExploration/main/data_exploration/data/death_followup.csv)
+- [cohort_baseline.csv](https://raw.githubusercontent.com/jd-otero/HEL3054_MedDataInitialExploration/main/data/raw/cohort_baseline.csv)
+- [registry_diagnoses.csv](https://raw.githubusercontent.com/jd-otero/HEL3054_MedDataInitialExploration/main/data/raw/registry_diagnoses.csv)
+- [death_followup.csv](https://raw.githubusercontent.com/jd-otero/HEL3054_MedDataInitialExploration/main/data/raw/death_followup.csv)
 
 We will read them straight from GitHub using the following code:
 
