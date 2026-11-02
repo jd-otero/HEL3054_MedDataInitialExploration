@@ -1,0 +1,235 @@
+---
+title: "Exploratory data analysis: Cohort description (Solutions)"
+subtitle: "HEL 3054"
+date: "2026-11-02"
+output: html
+---
+
+## Objectives
+
+During this session we will:
+
+- Explore the cohort dataset
+- Practice descriptive data analysis
+- Practice data manipulation and visualization
+
+We start by importing the data from the previous session.
+
+```{r initial settings}
+# Import libraries
+library(tidyverse)
+library(tableone)
+library(here)
+
+cohort <- read_csv(here("data", "raw", "cohort_baseline.csv"))
+```
+
+## 3. The cohort
+
+### 3.1 Men and women
+
+How many men and women are there? Show it in a plot.
+
+*Hint: `table()`.*
+*Hint 2: barplot*
+
+```{r sex}
+table(cohort$sex)
+
+# plot using ggplot
+ggplot(cohort, aes(x = sex)) +
+  geom_bar() +
+  labs(x = NULL, y = "Number of people") +
+  theme_bw()
+```
+
+### 3.2 Education
+
+How many people are there at each level of educational attainment?
+
+```{r education}
+table(cohort$education)
+
+ggplot(cohort, aes(x = education)) +
+  geom_bar() +
+  labs(x = NULL, y = "Number of people") +
+  theme_bw()
+```
+
+### 3.3 Diabetes
+
+How many have diabetes at baseline? Report the proportions.
+
+*Hint: `prop.table()`*
+
+```{r diabetes}
+table(cohort$diabetes_baseline)
+
+# Proportion
+prop.table(table(cohort$diabetes_baseline))
+```
+
+### 3.4 Age
+
+Create an age variable using the birth year.
+
+*Hint: `mutate()`*
+
+```{r age}
+cohort <- cohort %>%
+  mutate(age = 2026 - birth_year)
+```
+
+Plot the age distribution using `ggplot2`. What can you say about it?
+
+*Hint: `geom_density()`*
+
+```{r age-distribution}
+summary(cohort$age)
+
+ggplot(cohort, aes(x = age)) +
+  geom_histogram(binwidth = 5, boundary = 60) +
+  labs(x = "Age in 2026 (years)", y = "Number of people") +
+  theme_bw()
+
+ggplot(cohort, aes(x = age)) +
+  geom_density() +
+  labs(x = "Age in 2026 (years)", y = "Density") +
+  theme_bw() +
+  theme(legend.position = "none")
+```
+
+### 3.5 Age by sex
+
+Add a colour to the previous plot based on sex. Are there differences between men and women?
+
+```{r scatter-colour}
+ggplot(cohort, aes(x = age, colour = sex)) +
+  geom_density() +
+  labs(x = "Age in 2026 (years)", y = "Density") +
+  theme_bw() +
+  theme(legend.position = "none")
+```
+
+### 3.6 Diabetes and IHD
+
+Make a 2×2 table of diabetes and self-reported prior IHD. Did the people that have diabetes reported prior IHD?
+
+```{r diabetes-ihd}
+table(diabetes = cohort$diabetes_baseline, prior_ihd = cohort$self_reported_prior_ihd)
+```
+
+### 3.7 BMI distribution
+
+Look at the BMI distribution with a boxplot. Are there any outliers?
+
+```{r bmi-boxplot}
+summary(cohort$bmi_kg_m2)
+
+ggplot(cohort, aes(x = "", y = bmi_kg_m2)) +
+  geom_boxplot() +
+  labs(x = NULL, y = "BMI (kg/m2)") +
+  theme_bw()
+```
+
+### 3.8 BMI by sex
+
+Show the BMI distribution separately for men and women. Is there any difference?
+
+*Hint: ´facet_wrap()´*
+
+```{r bmi-sex}
+ggplot(cohort, aes(x = "", y = bmi_kg_m2)) +
+  geom_boxplot() +
+  facet_wrap(~ sex) +
+  labs(x = NULL, y = "BMI (kg/m2)") +
+  theme_bw()
+```
+
+### 3.9 BMI categories
+
+Create a categorical BMI variable using the WHO cut-offs:underweight below 18.5, normal weight 18.5 to 24.9, overweight 25 to 29.9 and obese 30 or above. How many people are obese?
+
+```{r bmi-categories}
+cohort <- cohort %>%
+  mutate(
+    bmi_cat = case_when(
+      bmi_kg_m2 < 18.5 ~ "Underweight",
+      bmi_kg_m2 < 25 ~ "Normal weight",
+      bmi_kg_m2 < 30 ~ "Overweight",
+      TRUE ~ "Obese"
+    ),
+    bmi_cat = factor(bmi_cat, levels = c("Underweight", "Normal weight", "Overweight", "Obese"))
+  )
+
+table(cohort$bmi_cat)
+```
+
+### 3.10 Means by education
+
+Build a summary that includes the number of people and the mean BMI, systolic blood pressure and cholesterol at each level of education.
+
+*Hint: `group_by()` and `summarise()`*
+
+```{r means-education}
+cohort %>%
+  group_by(education) %>%
+  summarise(
+    n = n(),
+    bmi = mean(bmi_kg_m2),
+    sbp = mean(systolic_bp_mmHg),
+    chol = mean(total_cholesterol_mmol_l)
+  )
+```
+
+### 3.11 Table 1
+
+Make a "Table 1" describing the cohort splitted by sex. Describe the trends you observe.
+
+```{r table-one}
+vars <- c("age", "education", "smoking_status", "physical_activity", "bmi_kg_m2",
+          "systolic_bp_mmHg", "total_cholesterol_mmol_l", "diabetes_baseline",
+          "self_reported_prior_ihd")
+
+table1 <- CreateTableOne(vars = vars, strata = "sex", data = cohort, test = FALSE)
+table1
+```
+
+
+
+### 3.12 Cholesterol and blood pressure
+
+Make a scatterplot of total cholesterol and systolic blood pressure. Do you see any trend?
+
+```{r scatter}
+ggplot(cohort, aes(x = total_cholesterol_mmol_l, y = systolic_bp_mmHg)) +
+  geom_point() +
+  labs(x = "Total cholesterol (mmol/L)", 
+       y = "Systolic blood pressure (mmHg)") +
+  theme_bw()
+
+cor(cohort$total_cholesterol_mmol_l, cohort$systolic_bp_mmHg)
+```
+
+### 3.13 Linear regression
+
+Fit a linear regression using cholesterol as the independent variable and systolic blood pressure as the dependent varible. In addition, add the regression line to the previous scatterplot.
+*Hint: geom_smooth()*
+
+```{r regression}
+model <- lm(systolic_bp_mmHg ~ total_cholesterol_mmol_l, data = cohort)
+summary(model)
+
+ggplot(cohort, aes(x = total_cholesterol_mmol_l, y = systolic_bp_mmHg)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x) +
+  labs(x = "Total cholesterol (mmol/L)", y = "Systolic blood pressure (mmHg)")
+```
+
+### 3.14 Save
+
+Save your current dataset
+
+```{r save-dataset}
+write_csv(cohort, here("data", "cohort_baseline_modified.csv"))
+```
