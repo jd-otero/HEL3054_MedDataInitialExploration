@@ -1,0 +1,142 @@
+---
+title: "Exploratory data analysis: Diagnoses and death (Solutions)"
+subtitle: "HEL 3054"
+date: "2026-11-02"
+output: html
+---
+
+
+## Objectives
+
+During this session we will:
+
+- Explore the diagnosis and death datasets
+- Practice descriptive data analysis
+- Practice data manipulation and visualization
+
+We start by importing the data from the previous sessions.
+
+```{r initial settings}
+# Import libraries
+library(tidyverse)
+library(tableone)
+library(here)
+
+# Import data
+death <- read_csv(here("data", "raw","death_followup.csv"))
+diagnoses <- read_csv(here("data", "raw", "registry_diagnoses.csv"))
+```
+
+## 4. Diagnoses
+
+### 4.1 Coding systems
+
+Are all diagnoses in the same coding system?
+
+*Hint: ´unique()\`*
+
+```{r coding-systems}
+unique(diagnoses$coding_system)
+table(diagnoses$coding_system)
+```
+
+### 4.2 Filter by diagnoses system
+
+Which rows are not in ICD-10? Remove them.
+
+```{r filter-icd10}
+diagnoses <- diagnoses %>%
+  filter(coding_system == "ICD-10")
+
+nrow(diagnoses)
+```
+
+### 4.3 diagnoses codes
+
+How many different diagnosis codes are there, and how often does each appear?
+
+```{r codes}
+n_distinct(diagnoses$diagnosis_code)
+table(diagnoses$diagnosis_code)
+```
+
+### 4.4 Diagnosis per person
+
+How many diagnoses does each person have? Show it in a bar plot.
+
+*Hint: `count(person_id)`.*
+
+```{r per-person}
+diagnoses_per_person <- diagnoses %>%
+  count(person_id, name = "n_diagnoses")
+
+diagnoses_per_person
+table(diagnoses_per_person$n_diagnoses)
+
+ggplot(diagnoses_per_person, aes(x = factor(n_diagnoses))) +
+  geom_bar() +
+  labs(x = "Number of diagnoses", y = "Number of people") +
+  theme_bw()
+```
+
+### 4.5 Primary diagnoses
+
+Keep only the primary diagnoses. How many rows and people are left?
+
+```{r primary}
+table(diagnoses$diagnosis_position)
+
+diagnoses <- diagnoses %>%
+  filter(diagnosis_position == "Primary")
+
+nrow(diagnoses)
+n_distinct(diagnoses$person_id)
+```
+
+### 4.6 Most common diagnoses
+
+Which is the most common primary diagnoses?
+
+```{r most-common}
+diagnoses %>%
+  count(diagnosis_code, sort = TRUE)
+
+# Counting people rather than rows
+diagnoses %>%
+  distinct(person_id, diagnosis_code) %>%
+  count(diagnosis_code, sort = TRUE)
+```
+
+## 5. Deaths
+
+### 5.1 Who died?
+
+Create a factor variable `died` that is "Yes" or "No".
+
+*Hint: `if_else()`*
+
+```{r died}
+death <- death %>%
+  mutate(died = factor(if_else(is.na(death_date_raw), "No", "Yes")))
+```
+
+### 5.2 How many died?
+
+How many participants have died?
+
+```{r n-died}
+table(death$died)
+
+death %>%
+  filter(died == "Yes") %>%
+  summarise(count = n())
+```
+
+### 6. Save
+
+Save your current datasets.
+
+```{r save-datasets}
+write_csv(death, here("data", "death_followup_modified.csv"))
+write_csv(diagnoses, here("data", "registry_diagnoses_modified.csv"))
+```
