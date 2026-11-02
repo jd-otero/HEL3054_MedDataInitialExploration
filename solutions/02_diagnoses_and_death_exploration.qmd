@@ -40,6 +40,8 @@ unique(diagnoses$coding_system)
 table(diagnoses$coding_system)
 ```
 
+Not all diagnosis are presented in the same coding system. Some are reported in ICD-10 and other in ICD-9.
+
 ### 4.2 Filter by diagnoses system
 
 Which rows are not in ICD-10? Remove them.
@@ -59,6 +61,7 @@ How many different diagnosis codes are there, and how often does each appear?
 n_distinct(diagnoses$diagnosis_code)
 table(diagnoses$diagnosis_code)
 ```
+There are 7 distinct diagnosis, with I25.1 (Atherosclerotic heart disease) being the most common one.
 
 ### 4.4 Diagnosis per person
 
@@ -67,17 +70,16 @@ How many diagnoses does each person have? Show it in a bar plot.
 *Hint: `count(person_id)`.*
 
 ```{r per-person}
-diagnoses_per_person <- diagnoses %>%
-  count(person_id, name = "n_diagnoses")
+diagnoses %>%
+  count(person_id, name = "n_diagnoses", sort = TRUE)
 
-diagnoses_per_person
-table(diagnoses_per_person$n_diagnoses)
-
-ggplot(diagnoses_per_person, aes(x = factor(n_diagnoses))) +
+ggplot(diagnoses, aes(x = person_id)) +
   geom_bar() +
-  labs(x = "Number of diagnoses", y = "Number of people") +
+  labs(x = "Person ID", y = "Number of diagnoses") +
   theme_bw()
 ```
+
+Some people have more than one diagnosis.
 
 ### 4.5 Primary diagnoses
 
@@ -93,9 +95,11 @@ nrow(diagnoses)
 n_distinct(diagnoses$person_id)
 ```
 
+13 people are left (15 diagnoses).
+
 ### 4.6 Most common diagnoses
 
-Which is the most common primary diagnoses?
+Which is the most common primary diagnosis?
 
 ```{r most-common}
 diagnoses %>%
@@ -106,6 +110,8 @@ diagnoses %>%
   distinct(person_id, diagnosis_code) %>%
   count(diagnosis_code, sort = TRUE)
 ```
+
+I25.1 is still the most commin diagnosis code.
 
 ## 5. Deaths
 
@@ -131,6 +137,8 @@ death %>%
   filter(died == "Yes") %>%
   summarise(count = n())
 ```
+
+Two people have died.
 
 ### 6. Save
 

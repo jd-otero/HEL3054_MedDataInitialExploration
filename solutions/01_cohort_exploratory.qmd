@@ -43,6 +43,8 @@ ggplot(cohort, aes(x = sex)) +
   theme_bw()
 ```
 
+There are more men than women.
+
 ### 3.2 Education
 
 How many people are there at each level of educational attainment?
@@ -55,6 +57,7 @@ ggplot(cohort, aes(x = education)) +
   labs(x = NULL, y = "Number of people") +
   theme_bw()
 ```
+There are more people that finished secondary education than those that had finished university or only primary school.
 
 ### 3.3 Diabetes
 
@@ -68,6 +71,8 @@ table(cohort$diabetes_baseline)
 # Proportion
 prop.table(table(cohort$diabetes_baseline))
 ```
+
+25% of the individuals reported suffering from diabetes at baseline.
 
 ### 3.4 Age
 
@@ -111,6 +116,8 @@ ggplot(cohort, aes(x = age, colour = sex)) +
   theme(legend.position = "none")
 ```
 
+Looking at the distributions, men seem to be older than women.
+
 ### 3.6 Diabetes and IHD
 
 Make a 2×2 table of diabetes and self-reported prior IHD. Did the people that have diabetes reported prior IHD?
@@ -118,6 +125,8 @@ Make a 2×2 table of diabetes and self-reported prior IHD. Did the people that h
 ```{r diabetes-ihd}
 table(diabetes = cohort$diabetes_baseline, prior_ihd = cohort$self_reported_prior_ihd)
 ```
+
+No, the individuals who reported suffering from diabetes did not report prior IHD.
 
 ### 3.7 BMI distribution
 
@@ -132,6 +141,8 @@ ggplot(cohort, aes(x = "", y = bmi_kg_m2)) +
   theme_bw()
 ```
 
+The median BMI is 28.55 (IQR: 26.12, 29.88), and no outliers are detected in the boxplot.
+
 ### 3.8 BMI by sex
 
 Show the BMI distribution separately for men and women. Is there any difference?
@@ -145,6 +156,8 @@ ggplot(cohort, aes(x = "", y = bmi_kg_m2)) +
   labs(x = NULL, y = "BMI (kg/m2)") +
   theme_bw()
 ```
+
+Women seem to have lower BMI than men.
 
 ### 3.9 BMI categories
 
@@ -164,6 +177,7 @@ cohort <- cohort %>%
 
 table(cohort$bmi_cat)
 ```
+Five participants are obese.
 
 ### 3.10 Means by education
 
@@ -181,6 +195,7 @@ cohort %>%
     chol = mean(total_cholesterol_mmol_l)
   )
 ```
+Participants with higher educational attainment have lower `BMI`, lower `sbp` and lower `chol`.
 
 ### 3.11 Table 1
 
@@ -191,11 +206,9 @@ vars <- c("age", "education", "smoking_status", "physical_activity", "bmi_kg_m2"
           "systolic_bp_mmHg", "total_cholesterol_mmol_l", "diabetes_baseline",
           "self_reported_prior_ihd")
 
-table1 <- CreateTableOne(vars = vars, strata = "sex", data = cohort, test = FALSE)
+table1 <- CreateTableOne(vars = vars, strata = "sex", data = cohort, test = TRUE)
 table1
 ```
-
-
 
 ### 3.12 Cholesterol and blood pressure
 
@@ -210,6 +223,8 @@ ggplot(cohort, aes(x = total_cholesterol_mmol_l, y = systolic_bp_mmHg)) +
 
 cor(cohort$total_cholesterol_mmol_l, cohort$systolic_bp_mmHg)
 ```
+
+There is a strong significant correlation between total cholesterol and systolic blood pressure.
 
 ### 3.13 Linear regression
 

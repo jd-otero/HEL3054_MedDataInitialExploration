@@ -40,6 +40,8 @@ duplicated(diagnoses$person_id)
 duplicated(death$person_id)
 ```
 
+The `diagnoses` dataset contains repeated individuals, who have mroe than one diagnosis.
+
 ### 6.2 Remove duplicates
 
 We will use only the first diagnosis reported in the table. Therefore, remove duplicated rows from the dataset.
@@ -81,6 +83,8 @@ merged %>%
   select(person_id)
 ```
 
+There are 7 `NAs` which correspond to 7 individuals who do not have any IHD diagnosis in the registry.
+
 ### 6.5 Prevalent IHD among those who died
 
 Did the people who died report prior (prevalent) IHD at baseline?
@@ -88,6 +92,8 @@ Did the people who died report prior (prevalent) IHD at baseline?
 ```{r ihd-death}
 table(died = merged$died, ihd = merged$self_reported_prior_ihd)
 ```
+
+None of them reported prior IHD at baseline.
 
 ### 6.6 Most common diagnosis by education
 
@@ -99,6 +105,8 @@ merged %>%
   count(diagnosis_code, sort = TRUE) %>%
   top_n(1)
 ```
+
+I25.1 is the most common diagnosis amogn those with secondary educaiton.
 
 ## 6.6 Age and Diagnosis
 
@@ -115,6 +123,8 @@ ggplot(age_diagnosis, aes(x = diagnosis_code, y = age_mean, size = count))+
   geom_point() +
   theme_bw()
 ```
+
+By weighting the points by size we can observe that a lot of the codes had only one observation, which should make us skeptical about the calculated mean age.
 
 ## 7. Save merged dataset
 

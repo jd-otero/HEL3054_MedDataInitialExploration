@@ -5,7 +5,6 @@ date: "2026-11-02"
 output: html
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -78,6 +77,8 @@ n_distinct(diagnosis$person_id)
 n_distinct(death$person_id)
 ```
 
+Each row in `cohort` and `death` represent a person, while each row in `diagnosis` represents a diagnosis entry. There is 20 `person_id` in cohort and death, while there is only 17 unique `person_id` in diagnosis. Further exploration shows that some individuals have more than one diagnosis.
+
 ## 2. Initial exploration
 
 ### 2.1 Types, missing values and structure
@@ -97,3 +98,5 @@ colSums(is.na(cohort))
 colSums(is.na(diagnosis))
 colSums(is.na(death))
 ```
+
+There are no missing values in the datasets; however, `death` has empty strings for the people that are alive, as only the ones that have died have a `death_date_raw.`
